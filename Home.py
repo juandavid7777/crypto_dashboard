@@ -53,7 +53,7 @@ for i, metric in enumerate(df["metric_name"]):
                   log_scale = df.iloc[i]["log_scale"]
                   )
     
-    st.plotly_chart(fig, use_container_width=True)
+    strl.plotly_chart(fig, use_container_width=True)
 
     
     
