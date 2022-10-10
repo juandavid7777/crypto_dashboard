@@ -23,7 +23,7 @@ from functions import api_gn_bullet_data, api_tech_bullet_data, api_fg_bullet_da
 df_thresholds = pd.read_csv("thresholds.csv")
 
 # Title
-strl.markdown('<b style="color:darkgoldenrod ; font-size: 44px">Bitcoin metrics summary</b>', unsafe_allow_html=True)
+strl.markdown('<b style="color:darkgoldenrod ; font-size: 44px">BITCOIN metrics summary</b>', unsafe_allow_html=True)
 
 #Adds metrics in columns
 col_tech, col_onchain, col_sent = strl.columns(3)
