@@ -94,7 +94,7 @@ def bullet_fig_metric(value_in,
             }))
 
     fig.update_layout(
-        margin=dict(l=170, r=30, t=15, b=70),
+        margin=dict(l=150, r=30, t=15, b=70),
         height = 120,
         width = 500
     )
