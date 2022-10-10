@@ -14,7 +14,10 @@ from sklearn import metrics
 from datetime import date
 import datetime
 
-import streamlist as st
+import streamlit as st
+
+
+from functions import api_gn_bullet_data, api_tech_bullet_data, api_fg_bullet_data, bullet_fig_metric
 
 
 
@@ -49,4 +52,5 @@ for i, metric in enumerate(df["metric_name"]):
                   format_num = df.iloc[i]["format"],
                   log_scale = df.iloc[i]["log_scale"]
                   )
-    fig.show()
+    
+    st.plotly_chart(fig, use_container_width=True)
