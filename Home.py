@@ -19,17 +19,19 @@ strl.set_page_config(layout="wide")
 
 from functions import api_gn_bullet_data, api_tech_bullet_data, api_fg_bullet_data, bullet_fig_metric
 
+#Imports the data - Should be secret
 df_thresholds = pd.read_csv("thresholds.csv")
 
-
+# Title
 strl.markdown('<b style="color:darkgoldenrod ; font-size: 44px">Bitcoin metrics summary</b>', unsafe_allow_html=True)
 
+#Adds metrics in columns
 col_tech, col_onchain, col_sent = strl.columns(3)
 
+# Technical
 with col_tech:
    strl.header("Technical")
    
-
    #Runs functions in loops
    df = df_thresholds[df_thresholds["type"].isin(["Technical"])]
    for i, metric in enumerate(df["metric_name"]):
@@ -60,7 +62,7 @@ with col_tech:
         strl.plotly_chart(fig, use_container_width=True)
 
 
-
+# Onchain
 with col_onchain:
    strl.header("On-Chain")
 
@@ -93,6 +95,7 @@ with col_onchain:
         
         strl.plotly_chart(fig, use_container_width=True)
 
+# Sentiment
 with col_sent:
    strl.header("Sentiment")
    #Runs functions in loops
