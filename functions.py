@@ -14,6 +14,8 @@ from sklearn import metrics
 from datetime import date
 import datetime
 
+import streamlit as strl
+
 def bullet_fig_metric(value_in,
                       previous_val,
                       title_text,
@@ -108,7 +110,7 @@ def api_gn_bullet_data(metric, api_ID):
     url = api_ID #source of info for price
 
     #Parameters required for metric
-    api_key = API_TOKEN
+    api_key = strl.secrets["API_TOKEN"]
     a = "BTC"    #token
     s = '2020-01-01' #start date - not mandatory
     u = '2021-01-01' #until date - not mandatory
@@ -208,7 +210,7 @@ def api_tech_bullet_data (metric, api_ID):
     url = api_ID #source of info for price
 
     #Parameters required for metric
-    api_key = API_TOKEN
+    api_key = strl.secrets["API_TOKEN"]
     a = "BTC"    #token
     s = '2020-01-01' #start date - not mandatory
     u = '2021-01-01' #until date - not mandatory
