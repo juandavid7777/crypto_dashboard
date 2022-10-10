@@ -17,7 +17,7 @@ import datetime
 import streamlit as st
 
 
-from functions import api_gn_bullet_data, api_tech_bullet_data, api_fg_bullet_data, bullet_fig_metric
+# from functions import api_gn_bullet_data, api_tech_bullet_data, api_fg_bullet_data, bullet_fig_metric
 
 st.write("first point")
 
