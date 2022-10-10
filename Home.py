@@ -14,12 +14,12 @@
 # from datetime import date
 # import datetime
 
-import streamlit as st
+import streamlit as strl
 
 
-# from functions import api_gn_bullet_data, api_tech_bullet_data, api_fg_bullet_data, bullet_fig_metric
+from functions import api_gn_bullet_data, api_tech_bullet_data, api_fg_bullet_data, bullet_fig_metric
 
-st.write("first point")
+strl.write("first point")
 
 # df_thresholds = pd.read_csv("thresholds.csv")
 
@@ -58,4 +58,4 @@ st.write("first point")
     
     
     
-st.write("second point")
+strl.write("second point")
