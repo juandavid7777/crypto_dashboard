@@ -28,9 +28,10 @@ col1, col2, col3 = strl.columns(3)
 
 with col1:
    strl.header("Technical")
-   df = df_thresholds[df_thresholds["type"].isin(["Technical"])]
+   
 
    #Runs functions in loops
+   df = df_thresholds[df_thresholds["type"].isin(["Technical"])]
    for i, metric in enumerate(df["metric_name"]):
         # Defines the source of data to be used
         if df.iloc[i]["type"] == "Onchain":
@@ -60,12 +61,65 @@ with col1:
 
 
 
-
-
 with col2:
-   st.header("On-Chain")
-   st.image("https://static.streamlit.io/examples/dog.jpg")
+   strl.header("On-Chain")
+
+   #Runs functions in loops
+   df = df_thresholds[df_thresholds["type"].isin(["Onchain"])]
+   for i, metric in enumerate(df["metric_name"]):
+        # Defines the source of data to be used
+        if df.iloc[i]["type"] == "Onchain":
+            val, prev_val, min_val, max_val = api_gn_bullet_data(metric, df.iloc[i]["api_id"])
+        elif df.iloc[i]["type"] == "Technical":
+            val, prev_val, min_val, max_val = api_tech_bullet_data(metric, df.iloc[i]["api_id"])
+        else:
+            val, prev_val, min_val, max_val = api_fg_bullet_data(metric, df.iloc[i]["api_id"])
+        
+        # Defines ranges to be used
+        if df.iloc[i]["custom_limit"] == True:
+            range_vals = [df.iloc[i]["min"], df.iloc[i]["low"], df.iloc[i]["high"], df.iloc[i]["max"]]
+            
+        else:
+            range_vals = [min_val, df.iloc[i]["low"], df.iloc[i]["high"], max_val]
+
+        # Plots data
+        fig = bullet_fig_metric(value_in = val,
+                    previous_val = prev_val,
+                    title_text = metric,
+                    ranges = range_vals,
+                    format_num = df.iloc[i]["format"],
+                    log_scale = df.iloc[i]["log_scale"]
+                    )
+        
+        strl.plotly_chart(fig, use_container_width=True)
 
 with col3:
-   st.header("Sentiment")
-   st.image("https://static.streamlit.io/examples/owl.jpg")
+   strl.header("Sentiment")
+   #Runs functions in loops
+   df = df_thresholds[df_thresholds["type"].isin(["Sentiment"])]
+   for i, metric in enumerate(df["metric_name"]):
+        # Defines the source of data to be used
+        if df.iloc[i]["type"] == "Onchain":
+            val, prev_val, min_val, max_val = api_gn_bullet_data(metric, df.iloc[i]["api_id"])
+        elif df.iloc[i]["type"] == "Technical":
+            val, prev_val, min_val, max_val = api_tech_bullet_data(metric, df.iloc[i]["api_id"])
+        else:
+            val, prev_val, min_val, max_val = api_fg_bullet_data(metric, df.iloc[i]["api_id"])
+        
+        # Defines ranges to be used
+        if df.iloc[i]["custom_limit"] == True:
+            range_vals = [df.iloc[i]["min"], df.iloc[i]["low"], df.iloc[i]["high"], df.iloc[i]["max"]]
+            
+        else:
+            range_vals = [min_val, df.iloc[i]["low"], df.iloc[i]["high"], max_val]
+
+        # Plots data
+        fig = bullet_fig_metric(value_in = val,
+                    previous_val = prev_val,
+                    title_text = metric,
+                    ranges = range_vals,
+                    format_num = df.iloc[i]["format"],
+                    log_scale = df.iloc[i]["log_scale"]
+                    )
+        
+        strl.plotly_chart(fig, use_container_width=True)
