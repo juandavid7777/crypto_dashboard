@@ -24,9 +24,9 @@ strl.write("first point")
 df_thresholds = pd.read_csv("thresholds.csv")
 
 
-col1, col2, col3 = strl.columns(3)
+col_tech, col_onchain, col_sent = strl.columns(3)
 
-with col1:
+with col_tech:
    strl.header("Technical")
    
 
@@ -61,7 +61,7 @@ with col1:
 
 
 
-with col2:
+with col_onchain:
    strl.header("On-Chain")
 
    #Runs functions in loops
@@ -93,7 +93,7 @@ with col2:
         
         strl.plotly_chart(fig, use_container_width=True)
 
-with col3:
+with col_sent:
    strl.header("Sentiment")
    #Runs functions in loops
    df = df_thresholds[df_thresholds["type"].isin(["Sentiment"])]
