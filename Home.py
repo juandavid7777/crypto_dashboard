@@ -19,10 +19,10 @@ strl.set_page_config(layout="wide")
 
 from functions import api_gn_bullet_data, api_tech_bullet_data, api_fg_bullet_data, bullet_fig_metric
 
-strl.write("first point")
-
 df_thresholds = pd.read_csv("thresholds.csv")
 
+
+strl.markdown('<b style="color:darkgoldenrod ; font-size: 44px">Bitcoin metrics analysis summary</b>', unsafe_allow_html=True)
 
 col_tech, col_onchain, col_sent = strl.columns(3)
 
