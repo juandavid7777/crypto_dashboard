@@ -9,7 +9,7 @@ datetime ==4.3
 scipy ==1.8.1
 webcolors ==1.11.1
 requests == 2.16.5
-os < 3.10
+#os < 3.10
 
 
 
