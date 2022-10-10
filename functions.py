@@ -108,7 +108,7 @@ def api_gn_bullet_data(metric, api_ID):
     url = api_ID #source of info for price
 
     #Parameters required for metric
-    api_key = "d27e087b-a489-4905-9ce9-2283bbc06f91"
+    api_key = API_TOKEN
     a = "BTC"    #token
     s = '2020-01-01' #start date - not mandatory
     u = '2021-01-01' #until date - not mandatory
@@ -208,7 +208,7 @@ def api_tech_bullet_data (metric, api_ID):
     url = api_ID #source of info for price
 
     #Parameters required for metric
-    api_key = "d27e087b-a489-4905-9ce9-2283bbc06f91"
+    api_key = API_TOKEN
     a = "BTC"    #token
     s = '2020-01-01' #start date - not mandatory
     u = '2021-01-01' #until date - not mandatory
