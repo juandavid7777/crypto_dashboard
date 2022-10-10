@@ -19,7 +19,7 @@ import streamlit as st
 
 from functions import api_gn_bullet_data, api_tech_bullet_data, api_fg_bullet_data, bullet_fig_metric
 
-
+st.write("first point")
 
 df_thresholds = pd.read_csv("thresholds.csv")
 
@@ -54,3 +54,8 @@ for i, metric in enumerate(df["metric_name"]):
                   )
     
     st.plotly_chart(fig, use_container_width=True)
+
+    
+    
+    
+st.write("second point")
