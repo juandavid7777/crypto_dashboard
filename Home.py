@@ -22,7 +22,7 @@ from functions import api_gn_bullet_data, api_tech_bullet_data, api_fg_bullet_da
 btc_price = last_btc_price()
 eth_price = last_eth_price()
 
-strl.set_page_config(layout="wide", page_title="Home - BTC: " + str(last_price), page_icon = "🏠")
+strl.set_page_config(layout="wide", page_title="Home - BTC: " + str(btc_price), page_icon = "🏠")
 
 #Imports the data - Should be secret
 df_thresholds = pd.read_csv("thresholds.csv")
