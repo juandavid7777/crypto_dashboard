@@ -15,9 +15,7 @@ from datetime import date
 import datetime
 
 import streamlit as strl
-strl.set_page_config(layout="wide",
-page_title="Hello",
-page_icon = "🏠")
+strl.set_page_config(layout="wide", page_title="Hello", page_icon = "🏠")
 
 from functions import api_gn_bullet_data, api_tech_bullet_data, api_fg_bullet_data, bullet_fig_metric
 
