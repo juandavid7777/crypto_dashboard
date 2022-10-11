@@ -1,4 +1,4 @@
 import streamlit as strl
 strl.set_page_config(layout="wide")
 
-strl.write("Technical analysis - Under construction")
+strl.write("1. Technical analysis - Under construction")
