@@ -35,7 +35,7 @@ strl.markdown('<b style="color:darkgoldenrod ; font-size: 44px">BITCOIN metrics<
 # Summary
 strl.markdown("""---""")
 strl.header("Market summary")
-strl.write("BTC/USD: ", btc_price, " |  ETH/USD: ", eth_price, " | Dominance: BTC ", btc_per, "%  ETH ", eth_per )
+strl.write("BTC/USD: ", btc_price, "      | ETH/USD: ", eth_price, "          | Dominance:      BTC ", btc_per, "%       ETH ", eth_per , "%")
 
 
 #Adds metrics in columns
