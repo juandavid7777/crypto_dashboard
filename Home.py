@@ -22,7 +22,7 @@ url = base_url + f"/simple/price?ids=bitcoin&vs_currencies=usd"
 r = requests.get(url)
 last_price = r.json()['bitcoin']['usd']
 
-strl.set_page_config(layout="wide", page_title="Home" + str(last_price), page_icon = "🏠")
+strl.set_page_config(layout="wide", page_title="Home - BTC price: " + str(last_price), page_icon = "🏠")
 
 from functions import api_gn_bullet_data, api_tech_bullet_data, api_fg_bullet_data, bullet_fig_metric
 
@@ -31,8 +31,8 @@ df_thresholds = pd.read_csv("thresholds.csv")
 
 # Title
 strl.image("bitcoin.jpg")
-strl.markdown('<b style="color:darkgoldenrod ; font-size: 44px">BITCOIN metrics summary</b>', unsafe_allow_html=True)
-strl.header()
+strl.markdown('<b style="color:darkgoldenrod ; font-size: 44px">BITCOIN metrics</b>', unsafe_allow_html=True)
+strl.header("Market summary")
 strl.write("BTC/USD: ", last_price)
 
 #Adds metrics in columns
