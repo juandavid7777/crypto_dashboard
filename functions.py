@@ -299,3 +299,11 @@ def api_tech_bullet_data (metric, api_ID):
         max_val =df[var_select].max()
 
     return val, prev_val, min_val, max_val
+    
+def last_btc_price():
+    base_url = "https://api.coingecko.com/api/v3"
+    url = base_url + f"/simple/price?ids=bitcoin&vs_currencies=usd"
+    r = requests.get(url)
+    last_price = r.json()['bitcoin']['usd']
+
+    return last_price

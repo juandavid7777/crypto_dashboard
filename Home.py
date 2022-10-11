@@ -15,16 +15,13 @@ from datetime import date
 import datetime
 
 import streamlit as strl
+from functions import api_gn_bullet_data, api_tech_bullet_data, api_fg_bullet_data, bullet_fig_metric, last_btc_price
+
 
 #Gets latest price
-base_url = "https://api.coingecko.com/api/v3"
-url = base_url + f"/simple/price?ids=bitcoin&vs_currencies=usd"
-r = requests.get(url)
-last_price = r.json()['bitcoin']['usd']
+last_price = last_btc_price()
 
-strl.set_page_config(layout="wide", page_title="Home - BTC price: " + str(last_price), page_icon = "🏠")
-
-from functions import api_gn_bullet_data, api_tech_bullet_data, api_fg_bullet_data, bullet_fig_metric
+strl.set_page_config(layout="wide", page_title="Home - BTC: " + str(last_price), page_icon = "🏠")
 
 #Imports the data - Should be secret
 df_thresholds = pd.read_csv("thresholds.csv")
