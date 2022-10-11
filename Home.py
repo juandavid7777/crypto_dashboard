@@ -15,11 +15,12 @@ from datetime import date
 import datetime
 
 import streamlit as strl
-from functions import api_gn_bullet_data, api_tech_bullet_data, api_fg_bullet_data, bullet_fig_metric, last_btc_price
+from functions import api_gn_bullet_data, api_tech_bullet_data, api_fg_bullet_data, bullet_fig_metric, last_btc_price, last_eth_price
 
 
 #Gets latest price
-last_price = last_btc_price()
+btc_price = last_btc_price()
+eth_price = last_eth_price()
 
 strl.set_page_config(layout="wide", page_title="Home - BTC: " + str(last_price), page_icon = "🏠")
 
@@ -29,9 +30,12 @@ df_thresholds = pd.read_csv("thresholds.csv")
 # Title
 strl.image("bitcoin.jpg")
 strl.markdown('<b style="color:darkgoldenrod ; font-size: 44px">BITCOIN metrics</b>', unsafe_allow_html=True)
+
+# Summary
 strl.markdown("""---""")
 strl.header("Market summary")
-strl.write("BTC/USD: ", last_price)
+strl.write("BTC/USD: ", btc_price)
+strl.write("ETH/USD: ", eth_price)
 
 #Adds metrics in columns
 strl.markdown("""---""")
