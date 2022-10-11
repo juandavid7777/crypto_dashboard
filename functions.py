@@ -310,7 +310,7 @@ def last_btc_price():
 
 def last_eth_price():
     base_url = "https://api.coingecko.com/api/v3"
-    url = base_url + f"/simple/price?ids=ethereumn&vs_currencies=usd"
+    url = base_url + f"/simple/price?ids=ethereum&vs_currencies=usd"
     r = requests.get(url)
     last_price = r.json()['ethereum']['usd']
 
