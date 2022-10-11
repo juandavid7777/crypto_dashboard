@@ -29,10 +29,12 @@ df_thresholds = pd.read_csv("thresholds.csv")
 # Title
 strl.image("bitcoin.jpg")
 strl.markdown('<b style="color:darkgoldenrod ; font-size: 44px">BITCOIN metrics</b>', unsafe_allow_html=True)
+st.markdown("""---""")
 strl.header("Market summary")
 strl.write("BTC/USD: ", last_price)
 
 #Adds metrics in columns
+st.markdown("""---""")
 col_tech, col_onchain, col_sent = strl.columns(3)
 
 # Technical
