@@ -15,12 +15,6 @@ from datetime import date
 import datetime
 
 import streamlit as strl
-strl.set_page_config(layout="wide", page_title="BTC metrics home", page_icon = "🏠")
-
-from functions import api_gn_bullet_data, api_tech_bullet_data, api_fg_bullet_data, bullet_fig_metric
-
-#Imports the data - Should be secret
-df_thresholds = pd.read_csv("thresholds.csv")
 
 #Gets latest price
 base_url = "https://api.coingecko.com/api/v3"
@@ -28,10 +22,17 @@ url = base_url + f"/simple/price?ids=bitcoin&vs_currencies=usd"
 r = requests.get(url)
 last_price = r.json()['bitcoin']['usd']
 
+strl.set_page_config(layout="wide", page_title="Home" + last_price, page_icon = "🏠")
+
+from functions import api_gn_bullet_data, api_tech_bullet_data, api_fg_bullet_data, bullet_fig_metric
+
+#Imports the data - Should be secret
+df_thresholds = pd.read_csv("thresholds.csv")
 
 # Title
 strl.image("bitcoin.jpg")
 strl.markdown('<b style="color:darkgoldenrod ; font-size: 44px">BITCOIN metrics summary</b>', unsafe_allow_html=True)
+strl.header()
 strl.write("BTC/USD: ", last_price)
 
 #Adds metrics in columns
