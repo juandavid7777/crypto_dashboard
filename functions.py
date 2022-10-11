@@ -315,3 +315,16 @@ def last_eth_price():
     last_price = r.json()['ethereum']['usd']
 
     return last_price
+
+def market_per():
+    base_url = "https://api.coingecko.com/api/v3"
+    url = base_url + f"/global"
+    r = requests.get(url)
+    response = r.json()
+
+    btc_per = response["data"]["market_cap_percentage"]["btc"]
+    eth_per = response["data"]["market_cap_percentage"]["eth"]
+
+    return round(btc_per,1), round(eth_per, 1) 
+
+market_per()
