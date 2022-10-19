@@ -55,11 +55,12 @@ with col_price:
 
 #Adds metrics in columns
 strl.markdown("""---""")
+strl.header("Metrics")
 col_tech, col_onchain, col_sent = strl.columns(3)
 
 # Technical
 with col_tech:
-   strl.header("Technical")
+   strl.subheader("Technical")
    
    #Runs functions in loops
    df = df_thresholds[df_thresholds["type"].isin(["Technical"])]
@@ -93,7 +94,7 @@ with col_tech:
 
 # Onchain
 with col_onchain:
-   strl.header("On-Chain")
+   strl.subheader("On-Chain")
 
    #Runs functions in loops
    df = df_thresholds[df_thresholds["type"].isin(["Onchain"])]
@@ -126,7 +127,7 @@ with col_onchain:
 
 # Sentiment
 with col_sent:
-   strl.header("Sentiment")
+   strl.subheader("Sentiment")
    #Runs functions in loops
    df = df_thresholds[df_thresholds["type"].isin(["Sentiment"])]
    for i, metric in enumerate(df["metric_name"]):
