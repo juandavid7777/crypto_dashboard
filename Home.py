@@ -49,8 +49,8 @@ with col_per:
 
 with col_price:
     strl.subheader("Price")
-    strl.write("BTC/USD: ", btc_price)
-    strl.write(" ETH/USD: ", eth_price) 
+    strl.write("BTC/USD ", btc_price)
+    strl.write(" ETH/USD ", eth_price) 
 
 
 #Adds metrics in columns
