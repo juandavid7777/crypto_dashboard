@@ -300,24 +300,11 @@ def api_tech_bullet_data (metric, api_ID):
 
     return val, prev_val, min_val, max_val
 
-def last_btc_price():
+def market_data():
+    
     base_url = "https://api.coingecko.com/api/v3"
-    url = base_url + f"/simple/price?ids=bitcoin&vs_currencies=usd"
-    r = requests.get(url)
-    last_price = r.json()['bitcoin']['usd']
 
-    return last_price
-
-def last_eth_price():
-    base_url = "https://api.coingecko.com/api/v3"
-    url = base_url + f"/simple/price?ids=ethereum&vs_currencies=usd"
-    r = requests.get(url)
-    last_price = r.json()['ethereum']['usd']
-
-    return last_price
-
-def market_per():
-    base_url = "https://api.coingecko.com/api/v3"
+    #Market percentages
     url = base_url + f"/global"
     r = requests.get(url)
     response = r.json()
@@ -325,6 +312,33 @@ def market_per():
     btc_per = response["data"]["market_cap_percentage"]["btc"]
     eth_per = response["data"]["market_cap_percentage"]["eth"]
 
-    return round(btc_per,1), round(eth_per, 1) 
+    #Market prices
+        #Bitcoin
+    url = base_url + f"/simple/price?ids=bitcoin&vs_currencies=usd"
+    r = requests.get(url)
+    response = r.json()
+    btc_price = response['bitcoin']['usd']
 
-market_per()
+        #Ethereum
+    url = base_url + f"/simple/price?ids=ethereum&vs_currencies=usd"
+    r = requests.get(url)
+    response = r.json()
+    eth_price = response['ethereum']['usd']
+
+    #Circulating supply
+        #BTC
+    url = base_url + "/coins/bitcoin?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false"
+    r = requests.get(url)
+    response = r.json()
+    btc_mcap = response["market_data"]["circulating_supply"]*btc_price
+
+        #ETH
+    url = base_url + "/coins/ethereum?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false"
+    r = requests.get(url)
+    response = r.json()
+    eth_mcap = response["market_data"]["circulating_supply"]*eth_price
+
+    #Total market cap
+    crypto_mcap = btc_mcap/btc_per
+
+    return round(btc_price,1), round(eth_price, 1), round(btc_per,1), round(eth_per, 1), round(btc_mcap,1), round(eth_mcap,1), round(crypto_mcap,1)

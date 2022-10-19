@@ -15,13 +15,11 @@ from datetime import date
 import datetime
 
 import streamlit as strl
-from functions import api_gn_bullet_data, api_tech_bullet_data, api_fg_bullet_data, bullet_fig_metric, last_btc_price, last_eth_price, market_per
+from functions import api_gn_bullet_data, api_tech_bullet_data, api_fg_bullet_data, bullet_fig_metric, market_data
 
 
 #Gets latest price
-btc_price = last_btc_price()
-eth_price = last_eth_price()
-btc_per, eth_per = market_per()
+btc_price, eth_price, btc_per, eth_per, btc_mcap, eth_mcap, crypto_mcap = market_data()
 
 strl.set_page_config(layout="wide", page_title="Home - BTC: " + str(btc_price), page_icon = "🏠")
 
@@ -35,7 +33,7 @@ strl.markdown('<b style="color:darkgoldenrod ; font-size: 44px">BITCOIN metrics<
 # Summary
 strl.markdown("""---""")
 strl.header("Market summary")
-strl.write("BTC/USD: ", btc_price, " | ETH/USD: ", eth_price, " | Dominance: BTC ", btc_per, "% ETH ", eth_per , "%")
+strl.write("BTC/USD: ", btc_price, " ETH/USD: ", eth_price, " | Dominance: BTC ", btc_per, "% ETH ", eth_per , "%")
 
 
 #Adds metrics in columns
