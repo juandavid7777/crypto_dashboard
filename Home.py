@@ -38,7 +38,7 @@ col_mcap, col_per, col_price = strl.columns(3)
 
 with col_mcap:
 
-    strl.write("Crypto ", round(crypto_mcap/1000000000,1), "B")
+    strl.write("Crypto ", round(crypto_mcap/1000000,1), "B")
 
 with col_per:
     strl.write("BTC ", btc_per, "% ETH ", eth_per , "%")
