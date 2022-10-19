@@ -339,6 +339,6 @@ def market_data():
     eth_mcap = response["market_data"]["circulating_supply"]*eth_price
 
     #Total market cap
-    crypto_mcap = btc_mcap/btc_per
+    crypto_mcap = btc_mcap/(btc_per/100)
 
     return round(btc_price,1), round(eth_price, 1), round(btc_per,1), round(eth_per, 1), round(btc_mcap,1), round(eth_mcap,1), round(crypto_mcap,1)
