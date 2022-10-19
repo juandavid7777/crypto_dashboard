@@ -37,16 +37,18 @@ strl.header("Market summary")
 col_mcap, col_per, col_price = strl.columns(3)
 
 with col_mcap:
+    strl.subheader("Market cap")
     strl.write("Crypto ", round(crypto_mcap/1000000000,1),"B")
     strl.write("BTC ", round(btc_mcap/1000000000,1),"B")
     strl.write("ETH ", round(eth_mcap/1000000000,1),"B")
 
 with col_per:
+    strl.subheader("Dominance")
     strl.write("BTC ", btc_per, "%")
     strl.write("ETH ", eth_per , "%")
 
 with col_price:
-
+    strl.subheader("Price")
     strl.write("BTC/USD: ", btc_price)
     strl.write(" ETH/USD: ", eth_price) 
 
