@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-import plotly.graph_objects as go
+# import plotly.graph_objects as go
 import streamlit as strl
 
 from functions import api_gn_bullet_data, api_tech_bullet_data, api_fg_bullet_data, bullet_fig_metric, market_data
