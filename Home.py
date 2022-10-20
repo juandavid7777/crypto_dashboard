@@ -6,11 +6,7 @@ import requests
 import os
 
 import scipy.stats as st
-from scipy.stats import norm
 import matplotlib.dates as dates
-from sklearn.linear_model import LinearRegression
-from sklearn.preprocessing import PolynomialFeatures
-from sklearn import metrics
 from datetime import date
 import datetime
 
