@@ -165,7 +165,7 @@ def api_fg_bullet_data(metric, api_ID):
     #Cleans an formats database
         #Slices correct data
     df_fg = pd.read_csv(filename_metric+'.csv', header = 3)
-#     os.remove(filename_metric+'.csv')
+    os.remove(filename_metric+'.csv')
     df_fg = df_fg.iloc[:-5]
 
         #Renames data
