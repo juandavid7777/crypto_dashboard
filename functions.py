@@ -134,7 +134,7 @@ def api_gn_bullet_data(metric, api_ID):
     df = pd.read_csv(filename_metric+'.csv', parse_dates = [0], dayfirst = True)
     
     #Deletes file
-#     os.remove(filename_metric+'.csv')
+    os.remove(filename_metric+'.csv')
     
     #Gets the results
     days_prev = 90
