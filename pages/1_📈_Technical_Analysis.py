@@ -1,4 +1,9 @@
 import streamlit as strl
 strl.set_page_config(layout="wide", page_title="BTC metrics - Technical", page_icon = "📈")
 
-strl.write("Technical analysis - Under construction")
+# Title
+strl.image("technical.jpg")
+strl.markdown('<b style="color:darkgoldenrod ; font-size: 44px">Technical</b>', unsafe_allow_html=True)
+
+# Summary
+strl.markdown("""---""")
