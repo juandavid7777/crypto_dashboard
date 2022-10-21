@@ -7,8 +7,7 @@ from functions import bounded_metric, colored_metric, api_btc_hist_price, api_gn
 strl.set_page_config(layout="wide", page_title="BTC metrics - On Chain", page_icon = "⛓")
 
 df_thresholds = pd.read_csv("thresholds.csv")
-df_meta = df_thresholds[df_thresholds["type"].isin(["Onchain", "Sentiment"])]
-
+df_meta = df_thresholds[df_thresholds["type"].isin(["Onchain"])]
 
 col_bounded, col_colored= strl.columns(2)
 
