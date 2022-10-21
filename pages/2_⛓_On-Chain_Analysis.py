@@ -9,4 +9,11 @@ strl.set_page_config(layout="wide", page_title="BTC metrics - On Chain", page_ic
 df_thresholds = pd.read_csv("thresholds.csv")
 df_meta = df_thresholds[df_thresholds["type"].isin(["Onchain", "Sentiment"])]
 
-plot_graphs(df_meta, colored = False)
+
+col_bounded, col_colored= strl.columns(2)
+
+with col_bounded:
+    plot_graphs(df_meta, colored = False)
+
+with col_bounded:
+    plot_graphs(df_meta, colored = True)
