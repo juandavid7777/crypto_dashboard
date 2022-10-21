@@ -346,7 +346,7 @@ def market_data():
 def api_btc_hist_price():
     # price --------------------------------------------------------
     api_ID = "https://api.glassnode.com/v1/metrics/market/price_usd_ohlc"
-    filename_metric = metric
+    filename_metric = "price"
     url = api_ID #source of info for price
 
     #Parameters required for metric
