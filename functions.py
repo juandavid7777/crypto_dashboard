@@ -492,7 +492,7 @@ def colored_metric(df, metric_name, metric_format):
         customdata = df[metric_name],
         hovertemplate='<br>'.join([
                 '$%{y:'+'.1f'+'}',
-                metric + ': %{customdata:' + metric_format + '}',
+                metric_name + ': %{customdata:' + metric_format + '}',
             ]),
         marker=dict(size=3,color = df[metric_name],showscale=True, colorscale= "jet") #[[0, 'rgb(0,0,255)'], [1, 'rgb(255,0,0)']]) #colorscale='Jet'
         ),secondary_y=False)
