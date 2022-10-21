@@ -591,7 +591,7 @@ def plot_graphs(df_meta, colored = False):
             range_vals = [df_meta.iloc[i]["min"], df_meta.iloc[i]["low"], df_meta.iloc[i]["high"], df_meta.iloc[i]["max"]]
 
         else:
-            range_vals = [min_val, df_meta.iloc[i]["low"], df_meta.iloc[i]["high"], max_val]
+            range_vals = [df_metric[metric].min(), df_meta.iloc[i]["low"], df_meta.iloc[i]["high"], df_metric[metric].max()]
 
         #merges data
         df = df_price.merge(df_metric, how = "outer", left_index=True, right_index=True)
