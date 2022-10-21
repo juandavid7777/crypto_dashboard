@@ -342,3 +342,268 @@ def market_data():
     crypto_mcap = btc_mcap/(btc_per/100)
 
     return round(btc_price,1), round(eth_price, 1), round(btc_per,1), round(eth_per, 1), round(btc_mcap,1), round(eth_mcap,1), round(crypto_mcap,1)
+
+def api_btc_hist_price():
+    # price --------------------------------------------------------
+    api_ID = "https://api.glassnode.com/v1/metrics/market/price_usd_ohlc"
+    filename_metric = metric
+    url = api_ID #source of info for price
+
+    #Parameters required for metric
+    api_key = "d27e087b-a489-4905-9ce9-2283bbc06f91"
+    a = "BTC"    #token
+    s = '2020-01-01' #start date - not mandatory
+    u = '2021-01-01' #until date - not mandatory
+    i = '24h'         #time step
+    f = "CSV"        #output format 
+    timestamp_format = "humanized" #time stamp format
+
+    #Compiles parameters
+    params = (("a", a),("i", i),("f", f),("timestamp_format",timestamp_format ),("api_key", api_key))
+
+    #Generates data requests and extracts the content
+    r = requests.get(url, params)
+    r_content = r.content
+
+    #Writes the CSV temporary file
+    csv_file = open(filename_metric+'.csv', 'wb')
+    csv_file.write(r_content)
+    csv_file.close()
+
+    #Reads dataframe from temp file
+    dfp = pd.read_csv(filename_metric+'.csv', parse_dates = [0], dayfirst = True)
+    os.remove(filename_metric+'.csv')
+
+    #Renames colums
+    dfp = dfp.rename(columns={"timestamp": "Date", "c": "close", "h":"high", "l":"low", "o":"open" })
+
+    #Removes blank data
+    dfp = dfp.fillna(method='ffill')
+
+    #Estimates number of days since inception "X"
+    df = dfp[["Date", "open", "high", "low", "close"]]
+
+    df = df.set_index("Date")
+    
+    return df
+
+def api_fg_hist_data(metric, api_ID):
+    #URL required for metric
+    filename_metric = metric
+    url = api_ID #source of info for price
+
+    #Generates data requests and extracts the content
+    r = requests.get(url)
+    r_content = r.content
+
+    #Writes the CSV file
+    csv_file = open(filename_metric+'.csv', 'wb')
+    csv_file.write(r_content)
+    csv_file.close()
+
+    #Cleans an formats database
+        #Slices correct data
+    df_fg = pd.read_csv(filename_metric+'.csv', header = 3)
+    os.remove(filename_metric+'.csv')
+    df_fg = df_fg.iloc[:-5]
+
+        #Renames data
+    df_fg = df_fg.rename(columns={"fng_value": "Date", "fng_classification": "fg", "date":"fg_cat"})
+
+        #Sets Date as index
+    df_fg['Date']= pd.to_datetime(df_fg['Date'], utc = True, dayfirst = True)
+    df_fg = df_fg.set_index("Date").sort_index()
+
+    #Removes blank data
+    df_fg = df_fg.fillna(method='ffill')
+
+    #Makes fear index between 0-1
+    df_fg["fg"] = df_fg["fg"]/100
+
+    #Creates a moving averae of F&G for cleaning extremes
+    fg_roll = 90
+    df_fg["fg_MA"] = df_fg["fg"].rolling(fg_roll).mean()
+    
+    #Renames
+    df_fg = df_fg.rename(columns={"fg": "Fear and Greed", "fg_MA": "Fear and Greed MA"})
+
+    if metric == "Fear and Greed":
+        df = df_fg[["Fear and Greed"]]
+
+    else:
+        df = df_fg[["Fear and Greed MA"]]
+        
+    return df
+
+def api_gn_hist_data(metric, api_ID):
+
+    #URL required for metric
+    filename_metric = metric
+    url = api_ID #source of info for price
+
+    #Parameters required for metric
+    api_key = "d27e087b-a489-4905-9ce9-2283bbc06f91"
+    a = "BTC"    #token
+    s = '2020-01-01' #start date - not mandatory
+    u = '2021-01-01' #until date - not mandatory
+    i = '24h'         #time step
+    f = "CSV"        #output format 
+    timestamp_format = "humanized" #time stamp format
+
+    #Compiles parameters
+    params = (("a", a),("i", i),("f", f),("timestamp_format",timestamp_format ),("api_key", api_key))
+
+    #Generates data requests and extracts the content
+    r = requests.get(url, params)
+    r_content = r.content
+
+    #Writes the CSV temporary file
+    csv_file = open(filename_metric+'.csv', 'wb')
+    csv_file.write(r_content)
+    csv_file.close()
+
+    #Reads dataframe from temp file
+    df = pd.read_csv(filename_metric+'.csv', parse_dates = [0], dayfirst = True)
+    
+    #Deletes file
+    os.remove(filename_metric+'.csv')
+    
+    #Renames
+    df = df.rename(columns={"timestamp": "Date", "value": metric})
+    
+    #Indexes
+    df = df.set_index("Date")
+
+    return df
+
+def colored_metric(df, metric_name, metric_format):
+
+    fig = go.Figure()
+
+    # Create figure with secondary y-axis
+    fig = make_subplots(specs=[[{"secondary_y": True}]])
+
+    fig.add_trace(go.Scatter(
+        x=df['Date'],
+        y=df["close"],
+        mode = 'markers',
+        name = 'Price',
+        customdata = df[metric_name],
+        hovertemplate='<br>'.join([
+                '$%{y:'+'.1f'+'}',
+                metric + ': %{customdata:' + metric_format + '}',
+            ]),
+        marker=dict(size=3,color = df[metric_name],showscale=True, colorscale= "jet") #[[0, 'rgb(0,0,255)'], [1, 'rgb(255,0,0)']]) #colorscale='Jet'
+        ),secondary_y=False)
+
+    #Defines figure properties
+    fig.update_layout(
+        title = metric_name,
+        xaxis_title= "Date",
+        yaxis_title= "USD/BTC",
+        yaxis_type="log",
+        xaxis_rangeslider_visible=False,
+        hovermode="x unified",
+    )
+    
+    return fig
+
+def bounded_metric(df, metric_name, range_vals, metric_format = ".1f", log_scale = False):
+
+    min_lim = range_vals[0]
+    low_lim = range_vals[1]
+    high_lim = range_vals[2]
+    max_lim = range_vals[3]
+    
+    #Preprocessing inputs
+    mid_lim = (low_lim + high_lim)/2
+
+    if log_scale == True:
+        log_scale_val = "log"
+
+    else:
+        log_scale_val = "linear"
+
+    #Plotting
+    fig = go.Figure()
+
+    # Create figure with secondary y-axis
+    fig = make_subplots(specs=[[{"secondary_y": True}]])
+    fig.add_trace(go.Candlestick(
+            x=df['Date'],
+            open=df['open'],
+            high=df['high'],
+            low=df['low'],
+            close=df['close'],
+            name = "BTC price"
+            ))
+
+    fig.add_trace(go.Scatter(
+        x=df['Date'],
+        y=df[metric_name],
+        mode = 'lines',
+        name = metric_name,
+        customdata = df[metric_name],
+        hovertemplate='<br>'.join([
+                '%{customdata:' + metric_format + '}',
+            ]),
+        marker=dict(size=3,color = "mediumblue")
+        ),secondary_y=True)
+
+    #Colors areas
+    fig.add_hrect(y0=high_lim, y1=df[metric_name].max(), line_width=0, fillcolor="lightcoral", opacity=0.2, secondary_y = True)
+    fig.add_hrect(y0=mid_lim, y1=high_lim, line_width=0, fillcolor="sandybrown", opacity=0.2, secondary_y = True)
+    fig.add_hrect(y0=low_lim, y1=mid_lim, line_width=0, fillcolor="lemonchiffon", opacity=0.3, secondary_y = True)
+    fig.add_hrect(y0=df[metric_name].min(), y1=low_lim, line_width=0, fillcolor="greenyellow", opacity=0.2, secondary_y = True)
+
+    #Defines figure properties
+    fig.update_layout(
+        title = metric_name,
+        xaxis_title= "Date",
+        yaxis_title= "USD/BTC",
+        yaxis_type="log",
+        yaxis2_type=log_scale_val,
+        xaxis_rangeslider_visible=False,
+        hovermode="x unified", 
+    )
+
+    return fig
+
+def plot_graphs(df_meta, colored = False):
+
+    #Historic price
+    df_price = api_btc_hist_price()
+
+    # Runs functions in loops
+    for i, metric in enumerate(df_meta["metric_name"]):
+
+        # Defines the source of data to be used
+        if df_meta.iloc[i]["type"] == "Onchain":
+            df_metric = api_gn_hist_data(metric, df_meta.iloc[i]["api_id"])
+        elif df_meta.iloc[i]["type"] == "Technical":
+            print("Technical data missing")
+        else:
+            df_metric = api_fg_hist_data(metric, df_meta.iloc[i]["api_id"])
+
+        # Defines ranges to be used
+        if df_meta.iloc[i]["custom_limit"] == True:
+            range_vals = [df_meta.iloc[i]["min"], df_meta.iloc[i]["low"], df_meta.iloc[i]["high"], df_meta.iloc[i]["max"]]
+
+        else:
+            range_vals = [min_val, df_meta.iloc[i]["low"], df_meta.iloc[i]["high"], max_val]
+
+        #merges data
+        df = df_price.merge(df_metric, how = "outer", left_index=True, right_index=True)
+        df = df.reset_index()
+
+        if colored == True:
+            strl.plotly_chart(colored_metric(df, metric, df_meta.iloc[i]["format"]))
+
+        else:
+            strl.plotly_chart(bounded_metric(df, metric, range_vals, df_meta.iloc[i]["format"], log_scale = df_meta.iloc[i]["log_scale"] ))
+
+
+  
+
+
+
