@@ -8,7 +8,7 @@ strl.set_page_config(layout="wide", page_title="BTC metrics - On Chain", page_ic
 
 # Title
 strl.image("onchain.jpg")
-strl.markdown('<b style="color:darkgoldenrod ; font-size: 30px">On-Chain</b>', unsafe_allow_html=True)
+strl.markdown('<b style="color:darkgoldenrod ; font-size: 44px">On-Chain</b>', unsafe_allow_html=True)
 
 # Summary
 strl.markdown("""---""")
@@ -20,9 +20,9 @@ df_meta = df_thresholds[df_thresholds["type"].isin(["Onchain"])]
 col_bounded, col_colored= strl.columns(2)
 
 with col_bounded:
-    strl.header("Oscillators thresholds")
+    strl.subheader("Oscillators thresholds")
     plot_graphs(df_meta, colored = False)
 
 with col_colored:
-    strl.header("Collored distribution")
+    strl.subheader("Collored distribution")
     plot_graphs(df_meta, colored = True)
