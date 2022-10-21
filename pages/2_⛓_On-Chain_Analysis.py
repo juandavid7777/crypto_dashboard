@@ -13,7 +13,6 @@ strl.markdown('<b style="color:darkgoldenrod ; font-size: 44px">On-Chain</b>', u
 # Summary
 strl.markdown("""---""")
 
-
 df_thresholds = pd.read_csv("thresholds.csv")
 df_meta = df_thresholds[df_thresholds["type"].isin(["Onchain"])]
 
