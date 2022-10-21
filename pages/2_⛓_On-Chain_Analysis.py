@@ -15,5 +15,5 @@ col_bounded, col_colored= strl.columns(2)
 with col_bounded:
     plot_graphs(df_meta, colored = False)
 
-with col_bounded:
+with col_colored:
     plot_graphs(df_meta, colored = True)
