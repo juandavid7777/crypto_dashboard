@@ -6,6 +6,14 @@ from functions import bounded_metric, colored_metric, api_btc_hist_price, api_gn
 
 strl.set_page_config(layout="wide", page_title="BTC metrics - Sentiment", page_icon = "📊")
 
+# Title
+strl.image("sentiment.jpg")
+strl.markdown('<b style="color:darkgoldenrod ; font-size: 44px">Sentiment</b>', unsafe_allow_html=True)
+
+# Summary
+strl.markdown("""---""")
+
+
 df_thresholds = pd.read_csv("thresholds.csv")
 df_meta = df_thresholds[df_thresholds["type"].isin(["Sentiment"])]
 
