@@ -20,7 +20,9 @@ df_meta = df_thresholds[df_thresholds["type"].isin(["Sentiment"])]
 col_bounded, col_colored= strl.columns(2)
 
 with col_bounded:
+    strl.subheader("Oscillators thresholds")
     plot_graphs(df_meta, colored = False)
 
 with col_colored:
+    strl.subheader("Collored distribution")
     plot_graphs(df_meta, colored = True)
