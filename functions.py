@@ -552,10 +552,10 @@ def bounded_metric(df, metric_name, range_vals, metric_format = ".1f", log_scale
         ),secondary_y=True)
 
     #Colors areas
-    fig.add_hrect(y0=high_lim, y1=df[metric_name].max(), line_width=0, fillcolor="lightcoral", opacity=0.2, secondary_y = True)
-    fig.add_hrect(y0=mid_lim, y1=high_lim, line_width=0, fillcolor="sandybrown", opacity=0.2, secondary_y = True)
-    fig.add_hrect(y0=low_lim, y1=mid_lim, line_width=0, fillcolor="lemonchiffon", opacity=0.3, secondary_y = True)
-    fig.add_hrect(y0=df[metric_name].min(), y1=low_lim, line_width=0, fillcolor="greenyellow", opacity=0.2, secondary_y = True)
+    fig.add_hrect(y0=high_lim, y1=df[metric_name].max(), line_width=1, fillcolor="lightcoral", opacity=0.2, secondary_y = True)
+    fig.add_hrect(y0=mid_lim, y1=high_lim, line_width=1, fillcolor="sandybrown", opacity=0.2, secondary_y = True)
+    fig.add_hrect(y0=low_lim, y1=mid_lim, line_width=1, fillcolor="lemonchiffon", opacity=0.3, secondary_y = True)
+    fig.add_hrect(y0=df[metric_name].min(), y1=low_lim, line_width=1, fillcolor="greenyellow", opacity=0.2, secondary_y = True)
 
     #Defines figure properties
     fig.update_layout(
