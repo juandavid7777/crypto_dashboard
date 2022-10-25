@@ -14,7 +14,7 @@ strl.set_page_config(layout="wide", page_title="Home - BTC: " + str(btc_price), 
 df_thresholds = pd.read_csv("thresholds.csv")
 
 # Title
-strl.image("bitcoin.jpg")
+strl.image("bitcoin.jpg", use_column_width = True)
 strl.markdown('<b style="color:darkgoldenrod ; font-size: 44px">BITCOIN metrics</b>', unsafe_allow_html=True)
 
 # Summary
