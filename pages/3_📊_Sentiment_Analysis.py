@@ -8,7 +8,7 @@ strl.set_page_config(layout="wide", page_title="BTC metrics - Sentiment", page_i
 
 # Title
 strl.image("sentiment_strip.png", use_column_width = True)
-strl.markdown('<b style="color:darkgoldenrod ; font-size: 44px">Sentiment</b>', unsafe_allow_html=True)
+# strl.markdown('<b style="color:darkgoldenrod ; font-size: 44px">Sentiment</b>', unsafe_allow_html=True)
 
 # Summary
 strl.markdown("""---""")
