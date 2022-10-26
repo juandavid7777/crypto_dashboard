@@ -7,7 +7,7 @@ from functions import bounded_metric, colored_metric, api_btc_hist_price, api_gn
 strl.set_page_config(layout="wide", page_title="BTC metrics - Sentiment", page_icon = "📊")
 
 # Title
-strl.image("sentiment.png", use_column_width = True)
+strl.image("sentiment_strip.png", use_column_width = True)
 strl.markdown('<b style="color:darkgoldenrod ; font-size: 44px">Sentiment</b>', unsafe_allow_html=True)
 
 # Summary
