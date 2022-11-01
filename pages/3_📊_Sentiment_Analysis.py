@@ -23,5 +23,5 @@ with col_bounded:
     plot_graphs(df_meta, colored = False)
 
 with col_colored:
-    strl.subheader("Collored distribution")
+    strl.subheader("Colored distribution")
     plot_graphs(df_meta, colored = True)
