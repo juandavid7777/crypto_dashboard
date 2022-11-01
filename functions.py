@@ -477,6 +477,101 @@ def api_gn_hist_data(metric, api_ID):
 
     return df
 
+def api_tech_hist_data(metric, api_ID):
+
+    filename_metric = metric
+    url = api_ID #source of info for price
+
+    #Parameters required for metric
+    api_key = "d27e087b-a489-4905-9ce9-2283bbc06f91"
+    a = "BTC"    #token
+    s = '2020-01-01' #start date - not mandatory
+    u = '2021-01-01' #until date - not mandatory
+    i = '24h'         #time step
+    f = "CSV"        #output format 
+    timestamp_format = "humanized" #time stamp format
+
+    #Compiles parameters
+    params = (("a", a),("i", i),("f", f),("timestamp_format",timestamp_format ),("api_key", api_key))
+
+    #Generates data requests and extracts the content
+    r = requests.get(url, params)
+    r_content = r.content
+
+    #Writes the CSV temporary file
+    csv_file = open(filename_metric+'.csv', 'wb')
+    csv_file.write(r_content)
+    csv_file.close()
+
+    #Reads dataframe from temp file
+    dfp = pd.read_csv(filename_metric+'.csv', parse_dates = [0], dayfirst = True)
+    os.remove(filename_metric+'.csv')
+
+    #Renames colums
+    dfp = dfp.rename(columns={"timestamp": "Date", "c": "close", "h":"high", "l":"low", "o":"open" })
+
+    #Removes blank data
+    dfp = dfp.fillna(method='ffill')
+
+    #Estimates number of days since inception "X"
+    df = dfp
+    df["DSI"] = df.index + 1
+    df['Date']= pd.to_datetime(df['Date'], utc = True)
+    df = df.set_index("Date")
+
+    # 4.Fitting Polynomial Regression to the price
+    X = np.log(df["DSI"].values).reshape(-1,1)
+    Y = np.log(df["close"].values).reshape(-1,1)
+    poly_reg = PolynomialFeatures(degree=3) #Defines the polinomial degree
+    X_poly = poly_reg.fit_transform(X)
+    pol_reg = LinearRegression()
+    pol_reg.fit(X_poly, Y)
+
+    #Estimates the regressed price
+    df["price_reg"] = np.exp(pol_reg.predict(poly_reg.fit_transform(np.log(df["DSI"].values.reshape(-1,1)))))
+
+    #Summary statistics
+    SE_reg = np.sqrt(metrics.mean_squared_error(np.log(df.close), np.log(df.price_reg)))
+    R2_reg = metrics.r2_score(np.log(df.close), np.log(df.price_reg))
+
+    #5. Creates a normalization variable
+    df["norm_dist"] = df.apply(lambda x: norm.cdf(np.log(x['close']), np.log(x['price_reg']), SE_reg),axis = 1)
+
+    #6. Defines time (day) parameters for risk. Roll_long cannot be more than 326 as it will exclude the peak
+    roll_short = 7
+    roll_long = 350 #interesting 140
+
+    #Moving average and risk index generated
+    df["MA_short"] = df["close"].rolling(roll_short).mean()
+    df["MA_long"] = df["close"].rolling(roll_long).mean()
+
+    #Risk according to moving averages
+    df["risk_MA"] = np.log(df["MA_short"]/df["MA_long"])
+
+    SE_risk_MA = df["risk_MA"].std()
+    mean_risk_MA = df["risk_MA"].mean()
+
+    #Creates a normalization variable
+    df["risk_MA_norm"] = df.apply(lambda x: norm.cdf(x['risk_MA'], mean_risk_MA, SE_risk_MA),axis = 1)
+
+    if metric == "MA log rat":
+        var_select = "risk_MA_norm"
+        df = df[[var_select]]
+        
+        #Renames
+        df = df.rename(columns={"timestamp": "Date", var_select: metric})
+
+    else:
+        var_select = "norm_dist"
+        df = df[[var_select]]
+        
+        #Renames
+        df = df.rename(columns={"timestamp": "Date", var_select: metric})
+    
+    return df
+
+
+
 def colored_metric(df, metric_name, metric_format):
 
     fig = go.Figure()
@@ -582,7 +677,7 @@ def plot_graphs(df_meta, colored = False):
         if df_meta.iloc[i]["type"] == "Onchain":
             df_metric = api_gn_hist_data(metric, df_meta.iloc[i]["api_id"])
         elif df_meta.iloc[i]["type"] == "Technical":
-            print("Technical data missing")
+            df_metric = api_tech_hist_data(metric, df_meta.iloc[i]["api_id"])
         else:
             df_metric = api_fg_hist_data(metric, df_meta.iloc[i]["api_id"])
 
